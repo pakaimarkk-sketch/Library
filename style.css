@@ -22,6 +22,7 @@ body {
     display: none;
 }
 
+
 #popup {
     position: fixed;
     background-color: #f0ede5;
@@ -75,12 +76,12 @@ body {
 #library {
     display: grid;
     height: 65dvh;
-
+    grid-auto-flow: column;
 }
 
 .card {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 250px;
     border-radius: 10px;
     border: solid 5px black;
     gap: 1em;
