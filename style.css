@@ -42,54 +42,35 @@ body {
     display: grid;
     gap: 16px;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    justify-content: space-around;
+    grid-template-rows: 1fr 1fr 1fr;
+    justify-content: center;
     align-items:center
 }
 
 #inputAuthor {
     display: grid;
-    grid-column: 1 / 2;
+    grid-column: 1 / 3;
     grid-row: 1 / 2;
     gap: 1em;
+    grid-auto-flow: column;
 }
 
 #inputPages {
     display: grid;
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-    gap: 1em;
-}
-
-#inputAllPage {
-    display: grid;
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
-    grid-auto-flow: column;
-}
-
-#inputCurrPage {
-    display: grid;
     grid-row: 2 / 3;
-    grid-column: 2 / 3;
-    grid-auto-flow: column;
+    grid-column: 1 / 3;
+    grid-template-columns: 1fr 1fr;
 }
 
-#inputStatus {
+#inputLastrow {
     display: grid;
-    grid-row: 2 / 3;
-    grid-column: 1 / 2;
-    align-items: center;
+    grid-row: 3 / 4;
+    grid-column: 1 / 3;
     grid-auto-flow: column;
+    align-items:center;
+    justify-content: space-evenly
 }
 
-#submitBtns {
-    display: grid;
-    align-items: center;
-    grid-auto-flow: column;
-    grid-row: 2 / 3;
-    grid-column: 1 / 2;
-}
 
 #library {
     display: grid;

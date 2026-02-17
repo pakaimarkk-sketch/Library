@@ -15,7 +15,7 @@
 
         <div id="popup" class="hidden">
             <form id="userForm">
-                <div id="inputContainer">
+            <div id="inputContainer">
                 <div id="inputAuthor">
                     <div>
                         <label for="author">Author:</label>
@@ -29,28 +29,31 @@
                 </div>
                 
                 <div id="inputPages">
-                    <div id="inputAllPage">
+                    <div>
                         <label for="pages">Pages:</label>
                         <input type="number" name="pages" id="pages" required>
                     </div>
 
-                    <div id="inputStatus">
-                        <label for="finished">Finished:</label>
-                        <input type="checkbox" id="finished" name="finished" checked>
-                    </div>
-                </div>         
                     <div id="inputCurrPage">
                         <label for="currPage">Current Page:</label>
                         <input type="number" name="currPage" id="currPage">
+                    </div>         
+                </div>
+
+                <div id="inputLastrow">
+                    <div id="inputStatus">
+                        <label for="finished">Finished:</label>
+                        <input type="checkbox" id="finished" name="finished">
                     </div>
-                    <div id="submitBtns">
+
+                    <div>
                         <button id="close" type="button">Close</button>
                         <button type="submit">Enter</button>
                     </div>
-                 
-                </div> 
-            </form>
-            
+                </div>
+
+            </div> 
+            </form>           
         </div>
 
         <div id="library">
