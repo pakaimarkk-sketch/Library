@@ -5,6 +5,7 @@ const userForm = document.getElementById("userForm");
 const finishedCheckbox = document.getElementById("finished");
 const currPageDiv = document.getElementById("inputCurrPage");
 const currPageInput = document.getElementById("currPage");
+const libraryDiv = document.getElementById("library")
 const myLibrary = [];
 
 popUp.addEventListener("click", (openPopup));
@@ -24,7 +25,7 @@ function closePopup() {
     popupWindow.classList.add("hidden");
     popup.style.display = "";
     userForm.reset();
-    toggleCurrentPage()
+    toggleCurrentPage();
 };
 
 function toggleCurrentPage() {
@@ -48,7 +49,7 @@ function createBookObject(form) {
         pages: data.get("pages"),
         currPage: data.get("currPage"),
         finished: data.get("finished") === "on",
-    };
+};
 };
 
 function createBook(e) {
@@ -60,13 +61,25 @@ function createBook(e) {
     closePopup()
     userForm.reset();
     toggleCurrentPage()
+    renderBook(book)
 };
 
 function renderBook(data) {
-    const book = "";
+    let card = document.createElement("div")
+    card.classList.add("card")
+    card.innerHTML= `
+    <p>${data.title}</p>
+    <p>Author: ${data.author}</p>
+    <p>Pages: ${data.pages}</p>
+    <button class="delete" type="button">Delete</button>
+    <button class"edit" type"button">Edit</button>
+    `;
+    libraryDiv.appendChild(card)
+    const delBtn = card.querySelector(".delete")
+    const editBtn = card.querySelector(".edit")
 
-    document.getElementById("library").innerHTML += book
 
+    
 };
     
 
