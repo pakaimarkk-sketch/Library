@@ -33,20 +33,21 @@
                         <label for="pages">Pages:</label>
                         <input type="number" name="pages" id="pages" required>
                     </div>
-
-                    <div id="inputCurrPage">
-                        <label for="currPage">Current Page:</label>
-                        <input type="number" name="currPage" id="currPage">
-                    </div>         
+                    
+                    <div id="inputStatus">
+                        <label for="finished">In progress:</label>
+                        <input type="checkbox" id="finished" name="finished">
+                    </div>
+                            
                 </div>
 
                 <div id="inputLastrow">
-                    <div id="inputStatus">
-                        <label for="finished">Finished:</label>
-                        <input type="checkbox" id="finished" name="finished">
-                    </div>
+                    <div id="inputCurrPage" class="hidden">
+                        <label for="currPage">Current Page:</label>
+                        <input type="number" name="currPage" id="currPage">
+                    </div> 
 
-                    <div>
+                    <div id="inputSubmit">
                         <button id="close" type="button">Close</button>
                         <button type="submit">Enter</button>
                     </div>
@@ -61,7 +62,7 @@
             <p>Kybalion</p>
             <p>Author:<br> William Walker Atkinson</p>
             <p>Pages: 96</p>
-            <button class="status" type="button">read</button>
+            <button class="status" type="button">In Progress</button>
             <button class="delete" type="button">Delete</button>
             <button class="edit" type="button">Edit</button>
             </div>
@@ -70,7 +71,7 @@
             <p>Rethink Yourself: Change Your Thinking (Not Yourself) to Build Your Self-Esteem</p>
             <p>Author:<br> Zach Leezer</p>
             <p>Pages: 232</p>
-            <button class="status" type="button">read</button>
+            <button class="status" type="button">Finished</button>
             <button class="delete" type="button">Delete</button>
             <button class="edit" type="button">Edit</button>
             </div>
@@ -79,7 +80,7 @@
             <p>Notes from Underground</p>
             <p>Author:<br> 	Fyodor Dostoevsky</p>
             <p>Pages: 272</p>
-            <button class="status" type="button">read</button>
+            <button class="status" type="button">Finished</button>
             <button class="delete" type="button">Delete</button>
             <button class="edit" type="button">Edit</button>
             </div>
