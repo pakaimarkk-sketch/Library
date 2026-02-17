@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main">
+        <header id="header">
+            <div>My Library</div>
+        </header>
+<button id="open-form">New</button>
+
+        <div id="popup" class="hidden">
+            <form id="userForm">
+                <div id="inputContainer">
+                <div id="inputAuthor">
+                    <div>
+                        <label for="author">Author:</label>
+                        <input type="text" name="author" id="author" required>
+                    </div>
+
+                    <div>
+                        <label for="title">Title:</label>
+                        <input type="text" name="title" id="title" required>
+                    </div>
+                </div>
+                
+                <div id="inputPages">
+                    <div id="inputAllPage">
+                        <label for="pages">Pages:</label>
+                        <input type="number" name="pages" id="pages" required>
+                    </div>
+
+                    <div id="inputStatus">
+                        <label for="finished">Finished:</label>
+                        <input type="checkbox" id="finished" name="finished">
+                    </div>
+                </div>         
+                    <div id="inputCurrPage">
+                        <label for="currPage">Current Page:</label>
+                        <input type="number" name="currPage" id="currPage">
+                    </div>
+                    <div id="submitBtns">
+                        <button id="close">Close</button>
+                        <button type="submit">Enter</button>
+                    </div>
+                 
+                </div> 
+            </form>
+        </div>
+
+        <div id="library">
+            <div class="card">a</div>
+        </div>
+        
+        <footer id="footer">Made by Pakai Márk</footer>
+    </div>
+    <script src="fucntion.js"></script>
+</body>
+</html>
