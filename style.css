@@ -1,6 +1,6 @@
 body {
     max-width: 100dvw;
-    max-height: 100dvh;
+    min-height: 100dvh;
     margin: 0;
     background-color: #f5f5dc;
 }
@@ -79,18 +79,41 @@ body {
 
 #library {
     display: grid;
-    height: 65dvh;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr  ;
     grid-auto-flow: column;
 }
 
 .card {
-    width: 300px;
-    height: 250px;
+    display: grid;
+    grid-column: 1/ 2;
+    grid-row:auto;
+    height: 350px;
+    width: 350px;
+    grid-template-rows: 30% 20% 10% 10%;
     border-radius: 10px;
     border: solid 5px black;
-    gap: 1em;
-    margin: 1em;
+    gap: 8px;
+    margin: 2em;
+    font-size: 0.8rem;
 }
+
+#title {
+    grid-row: 1 / 2;
+}
+
+#author {
+    grid-row: 2 / 3;
+}
+
+#pages {
+    grid-row: 3 / 4;
+}
+
+#statusbarContainer {
+    display: flex;
+}
+
 
 #footer {
     display: grid;

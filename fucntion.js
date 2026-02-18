@@ -2,41 +2,14 @@ const popUp = document.getElementById("open-form");
 const popupWindow = document.getElementById("popup");
 const close = document.getElementById("close");
 const userForm = document.getElementById("userForm");
-const finishedCheckbox = document.getElementById("finished");
+const inProgressCheckbox = document.getElementById("finished");
 const currPageDiv = document.getElementById("inputCurrPage");
 const currPageInput = document.getElementById("currPage");
 const libraryDiv = document.getElementById("library");
 const authorInput = document.getElementById("author");  
 const titleInput = document.getElementById("title");
 const pagesInput = document.getElementById("pages");
-const statusInput = finishedCheckbox;
-
-currPageInput.addEventListener("input", () => {
-    const pages = Number(pagesInput.value);
-    let curr = Number(currPageInput.value);
-
-    if (curr > pages) {
-        currPageInput.value = pages;
-        curr = pages;
-    }
-
-    finishedCheckbox.checked = curr != pages;
-    
-});
-
-pagesInput.addEventListener("input", () => {
-    const pages = Number(pagesInput.value);
-    let curr = Number(currPageInput.value);
-
-    if (curr > pages) {
-        currPageInput.value = pages;
-        curr = pages;
-    }
-
-    finishedCheckbox.checked = curr != pages;
-    
-});
-
+const statusInput = inProgressCheckbox;
 
 let myLibrary = [
     {
@@ -59,17 +32,22 @@ let myLibrary = [
     id: crypto.randomUUID(),
     title: "Notes from Underground",
     author: "Fyodor Dostoevsky",
-    pages: Number(272),
-    currPage: Number(272),
+    pages: 272,
+    currPage: 272,
     finished: true
   },
 ];
-let editingId = null;
 
+currPageInput.addEventListener("input", toggleCurrentPage);
+
+pagesInput.addEventListener("input", toggleCurrentPage);
+
+let editingId = null;
 let isEditing = false;
 let cardBeingEdited = null;
 let idBeingEdited = null;
-myLibrary.forEach(book => renderBook(book))
+
+myLibrary.forEach(book => renderBook(book));
 
 popUp.addEventListener("click", openPopup);
 
@@ -77,7 +55,7 @@ close.addEventListener("click", closePopup);
 
 userForm.addEventListener("submit", createBook);
 
-finishedCheckbox.addEventListener("change", toggleCurrentPage);
+inProgressCheckbox.addEventListener("change", toggleCurrentPage);
 
 function openPopup() {
     popupWindow.classList.remove("hidden");
@@ -99,12 +77,11 @@ function enableEscClose() {
             closePopup();
         }
     });
-}
+};
 
 function toggleCurrentPage() {
-    const checked = finishedCheckbox.checked;
-    currPageDiv.style.display = checked ? "block" : "none";
-    currPageInput.enabled = checked;
+    const clamped = clampCurrPage()
+
 };
 
 function addBookToLibrary(book) {
@@ -113,15 +90,17 @@ function addBookToLibrary(book) {
 
 function createBookObject(form) {
     const data = new FormData(form);
+    const pages = Number(data.get("pages")) || 0;
+    const inProgress = data.get("finished") === "on";
 
     return {
         id: crypto.randomUUID(),
         author: data.get("author"),
         title: data.get("title"),
         pages: Number(data.get("pages")),
-        currPage: Number(data.get("currPage")),
-        status: data.get("finished") === "on",
-};
+        currPage: inProgress ? Number(data.get("currPage")) || 0 : pages,
+        finished: !inProgress, 
+    };
 };
 
 function createBook(e) {
@@ -131,7 +110,7 @@ function createBook(e) {
 
     if (isEditing) {
     removeCard(cardBeingEdited, idBeingEdited);
-    }
+    };
 
     addBookToLibrary(book);
     renderBook(book);
@@ -140,44 +119,45 @@ function createBook(e) {
     closePopup();
     userForm.reset();
     toggleCurrentPage();
-    
 };
 
 function renderBook(data) {
     let card = document.createElement("div");
     card.classList.add("card");
 
-    
-
     card.innerHTML= `
-    <p>${data.title}</p>
-    <p>Author: <br>${data.author}</p>
-    <p>Pages:${data.pages} / ${data.currPage} </p>
-    <button class="status" type="button">${data.finished ? "Finished" : "In Progress"}</button>
+    <p id="title">${data.title}</p>
+    <p id="author">Author: <br>${data.author}</p>
+    <p id="pages">Pages:${data.pages} / ${data.currPage} </p>
+    <div id="cardBtns">
     <button class="delete" type="button">Delete</button>
     <button class="edit" type="button">Edit</button>
+    </div>
+    <div id="statusbarContainer">
+    <progress class="progress" value="0" max="1"></progress>
+    <p class="statusText"></p>
+    </div>
     `;
 
     libraryDiv.appendChild(card);
 
+    const progressBar = card.querySelector(".progress");
+    const statusText = card.querySelector(".statusText");
+    
     const delBtn = card.querySelector(".delete");
     const editBtn = card.querySelector(".edit");
     const readBtn = card.querySelector(".status");
-
+    updateStatusbar(data, progressBar, statusText);
     delBtn.addEventListener("click", () => removeCard(card, data.id));
     editBtn.addEventListener("click", () =>  {
         const bookToEdit = myLibrary.find(b => b.id === data.id);
-    card.querySelector(".status").addEventListener("click", () => {
-        book.finished = !book.finished;
-        card.querySelector(".status").textContent = book.finished ? "Finished" : "In Progress";
-        card.querySelector("p:nth-child(3)").textContent = `Pages: ${updateCurrentPageDisplay(data)}`;
-    });
+
         isEditing = true;
         cardBeingEdited = card;
         idBeingEdited = data.id;
         editCard(bookToEdit, data.id);
     })
-
+    
 };
     
 function removeCard(card, id) {
@@ -200,5 +180,35 @@ function fillForm(book) {
         pagesInput.value = book.pages;
         currPageInput.value = book.currPage;
         statusInput.checked = book.finished;
-        toggleCurrentPage()   
+        inProgressCheckbox.checked = !book.finished;
+        toggleCurrentPage();   
 };
+
+
+function updateStatusbar(data, progressBar, statusText) {
+    const pages = Number(data.pages);
+    const currPage = Number(data.currPage);
+    const clamped = Math.min(currPage, pages);
+    const isFinished = clamped === pages && pages > 0;
+
+    progressBar.value = pages ? clamped / pages : 0;
+
+    statusText.textContent = isFinished ? "Finished" : "In Progress";
+
+    return isFinished;
+}
+
+function clampCurrPage() {
+    const pages = Number(pagesInput.value) || 0;
+    let curr = Number(currPageInput.value) || 0;
+
+    if (curr > pages) curr = pages;
+    currPageInput.value = curr;
+
+    const inProgress = inProgressCheckbox.checked;
+    currPageDiv.style.display = inProgress ? "block" : "none";
+    currPageInput.disabled = !inProgress;
+
+    return curr;
+}
+
