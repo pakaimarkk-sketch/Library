@@ -11,8 +11,65 @@ const titleInput = document.getElementById("title");
 const pagesInput = document.getElementById("pages");
 const statusInput = finishedCheckbox;
 
-let myLibrary = [];
+currPageInput.addEventListener("input", () => {
+    const pages = Number(pagesInput.value);
+    let curr = Number(currPageInput.value);
+
+    if (curr > pages) {
+        currPageInput.value = pages;
+        curr = pages;
+    }
+
+    finishedCheckbox.checked = curr != pages;
+    
+});
+
+pagesInput.addEventListener("input", () => {
+    const pages = Number(pagesInput.value);
+    let curr = Number(currPageInput.value);
+
+    if (curr > pages) {
+        currPageInput.value = pages;
+        curr = pages;
+    }
+
+    finishedCheckbox.checked = curr != pages;
+    
+});
+
+
+let myLibrary = [
+    {
+    id: crypto.randomUUID(),
+    title: "Kybalion",
+    author: "William Walker Atkinson",
+    pages: 96,
+    currPage: 72,
+    finished: false
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "Rethink Yourself: Change Your Thinking (Not Yourself) to Build Your Self-Esteem",
+    author: "Zach Leezer",
+    pages: 200,
+    currPage: 200,
+    finished: true
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "Notes from Underground",
+    author: "Fyodor Dostoevsky",
+    pages: Number(272),
+    currPage: Number(272),
+    finished: true
+  },
+];
 let editingId = null;
+
+let isEditing = false;
+let cardBeingEdited = null;
+let idBeingEdited = null;
+myLibrary.forEach(book => renderBook(book))
 
 popUp.addEventListener("click", openPopup);
 
@@ -26,6 +83,7 @@ function openPopup() {
     popupWindow.classList.remove("hidden");
     popupWindow.style.display = "grid";
     enableEscClose()
+    toggleCurrentPage()
 };
 
 function closePopup() {
@@ -60,8 +118,8 @@ function createBookObject(form) {
         id: crypto.randomUUID(),
         author: data.get("author"),
         title: data.get("title"),
-        pages: data.get("pages"),
-        currPage: data.get("currPage"),
+        pages: Number(data.get("pages")),
+        currPage: Number(data.get("currPage")),
         status: data.get("finished") === "on",
 };
 };
@@ -71,9 +129,8 @@ function createBook(e) {
     
     const book = createBookObject(userForm);
 
-    if (editingId) {
-    document.querySelector(`[data-id="${editingId}"]`)?.remove();
-    removeFromLibrary(editingId);
+    if (isEditing) {
+    removeCard(cardBeingEdited, idBeingEdited);
     }
 
     addBookToLibrary(book);
@@ -90,31 +147,37 @@ function renderBook(data) {
     let card = document.createElement("div");
     card.classList.add("card");
 
-    const statusText = data.finished ? "Finished" : "In Progress";
-    const pageDisplay = updateCurrentPageDisplay(data);
+    
 
     card.innerHTML= `
     <p>${data.title}</p>
     <p>Author: <br>${data.author}</p>
-    <p>Pages:${pageDisplay}</p>
-    <button class="status" type="button">${statusText}</button>
+    <p>Pages:${data.pages} / ${data.currPage} </p>
+    <button class="status" type="button">${data.finished ? "Finished" : "In Progress"}</button>
     <button class="delete" type="button">Delete</button>
     <button class="edit" type="button">Edit</button>
     `;
 
-
     libraryDiv.appendChild(card);
+
     const delBtn = card.querySelector(".delete");
     const editBtn = card.querySelector(".edit");
     const readBtn = card.querySelector(".status");
+
     delBtn.addEventListener("click", () => removeCard(card, data.id));
     editBtn.addEventListener("click", () =>  {
         const bookToEdit = myLibrary.find(b => b.id === data.id);
+    card.querySelector(".status").addEventListener("click", () => {
+        book.finished = !book.finished;
+        card.querySelector(".status").textContent = book.finished ? "Finished" : "In Progress";
+        card.querySelector("p:nth-child(3)").textContent = `Pages: ${updateCurrentPageDisplay(data)}`;
+    });
+        isEditing = true;
+        cardBeingEdited = card;
+        idBeingEdited = data.id;
         editCard(bookToEdit, data.id);
     })
-    readBtn.addEventListener("click", () => {
-        toggleReadStatus(readBtn, data);
-    });
+
 };
     
 function removeCard(card, id) {
@@ -131,37 +194,11 @@ function removeFromLibrary(id) {
     myLibrary = myLibrary.filter(book => book.id !==id);
 };
 
-libraryDiv.addEventListener("click", (event) => {
-    if (event.target.matches(".delete")) {
-        event.target.closest(".card").remove();
-    }
-});
-
-function toggleReadStatus(button, book) {
-    if (book.finished) {
-        book.finished = false;
-        button.textContent = "In Progress";
-    } else {
-        book.finished = true;
-        button.textContent = "Finished";
-    }
-};
-
 function fillForm(book) {
         authorInput.value = book.author;
         titleInput.value = book.title;
         pagesInput.value = book.pages;
         currPageInput.value = book.currPage;
         statusInput.checked = book.finished;
-        toggleCurrentPage()
-        updateCurrentPageDisplay(book)
-        
+        toggleCurrentPage()   
 };
-
-function updateCurrentPageDisplay(book) {
-    if (book.finished) {
-        currPageInput.value = `${book.pages}/${book.pages}`; 
-    } else {
-        currPageInput.value = `${book.currPage}/${book.pages}`;
-    }
-}
