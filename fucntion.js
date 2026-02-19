@@ -126,13 +126,17 @@ function renderBook(data) {
     card.classList.add("card");
 
     card.innerHTML= `
-    <p id="title">${data.title}</p>
-    <p id="author">Author: <br>${data.author}</p>
-    <p id="pages">Pages:${data.pages} / ${data.currPage} </p>
+    <div id="title"><p>${data.title}</p></div>
+
+    <div id="author"><p>Author: <br>${data.author}</p></div>
+
+    <div id="pages"><p>Pages:${data.pages} / ${data.currPage}</p></div>
+    
     <div id="cardBtns">
     <button class="delete" type="button">Delete</button>
     <button class="edit" type="button">Edit</button>
     </div>
+    
     <div id="statusbarContainer">
     <progress class="progress" value="0" max="1"></progress>
     <p class="statusText"></p>

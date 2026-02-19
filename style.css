@@ -1,123 +1,63 @@
 body {
-    max-width: 100dvw;
-    min-height: 100dvh;
     margin: 0;
-    background-color: #f5f5dc;
+    box-sizing: border-box;
+    height: 100%;
 }
+
 #main {
-    display: grid;
-    grid-template-rows: 5;
-    grid-row: 1fr 5fr 1fr;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: #929090;
+    flex:1;
+    background-color:#242424
 }
 
 #header {
-    display: grid;
-    height: 20dvh;
+    display: flex;
     align-items: center;
     justify-content: center;
     font-size: 4rem;
+    font-weight: 800;
 }
 
-.hidden {
-    display: none;
-}
-
-
-#popup {
-    position: fixed;
-    background-color: #f0ede5;
-    width: 1000px;
-    height: 400px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 0px 16px;
-    align-items: center;
+#headerText {
+    display: flex;
+    align-self: center;
     justify-content: center;
     flex-direction: column;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    text-align: center;
 }
 
-
-#inputContainer {
-    display: grid;
-    gap: 16px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    justify-content: center;
-    align-items:center
+#newBook {
+    display: flex;
+    padding: 1em;
+    box-shadow:  0 4px 6px #302e2e, inset 0 6px 4px #ffffff46;;
+    background-color: #302e2e;
 }
 
-#inputAuthor {
-    display: grid;
-    grid-column: 1 / 3;
-    grid-row: 1 / 2;
-    gap: 1em;
-    grid-auto-flow: column;
-}
-
-#inputPages {
-    display: grid;
-    grid-row: 2 / 3;
-    grid-column: 1 / 3;
-    grid-template-columns: 1fr 1fr;
-}
-
-
-
-#inputLastrow {
-    display: grid;
-    grid-template: 1fr / 1fr 1fr;
-    grid-row: 3 / 4;
-    grid-column: 1 / 3;
-    align-items:center;
-}
-
-#inputSubmit {
-    grid-column: 2 / 3;
+#newBook button {
+    margin-left: 5%;
+    width: 100px;
+    height: 40px;
+    border-radius: 0.5em;
+    background-color: oklch(0.7 0 264);
 }
 
 #library {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr  ;
-    grid-auto-flow: column;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    justify-items: center;
+    padding: 1rem;
 }
-
-.card {
-    display: grid;
-    grid-column: 1/ 2;
-    grid-row:auto;
-    height: 350px;
-    width: 350px;
-    grid-template-rows: 30% 20% 10% 10%;
-    border-radius: 10px;
-    border: solid 5px black;
-    gap: 8px;
-    margin: 2em;
-    font-size: 0.8rem;
-}
-
-#title {
-    grid-row: 1 / 2;
-}
-
-#author {
-    grid-row: 2 / 3;
-}
-
-#pages {
-    grid-row: 3 / 4;
-}
-
-#statusbarContainer {
-    display: flex;
-}
-
 
 #footer {
-    display: grid;
-    height: 5dvh;
-    align-items: end;
+    display: flex;
+    height: auto;
+    align-items: center;
     justify-content: center;
+    margin-top: auto;
+    padding: 1rem;
 }
+

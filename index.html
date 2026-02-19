@@ -5,60 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="card.css">
 </head>
 <body>
     <div id="main">
         <header id="header">
-            <div>My Library</div>
+            <div id="headerText">My<br>Library</div>
         </header>
+        <div id="newBook">
         <button id="open-form">New</button>
+        </div>
 
         <div id="popup" class="hidden">
             <form id="userForm">
             <div id="inputContainer">
-                <div id="inputAuthor">
-                    <div>
+                    <div id="inputAuthor">
                         <label for="author">Author:</label>
                         <input type="text" name="author" id="author" required>
                     </div>
 
-                    <div>
+                    <div id="inputTitle">
                         <label for="title">Title:</label>
                         <input type="text" name="title" id="title" required>
                     </div>
-                </div>
                 
-                <div id="inputPages">
-                    <div>
+                    <div id="inputPages">
                         <label for="pages">Pages:</label>
                         <input type="number" name="pages" id="pages" min="1" required>
                     </div>
                     
                     <div id="inputStatus">
-                        <label for="finished">In progress:</label>
-                        <input type="checkbox" id="finished" name="finished">
+                        <label class="switch">
+                            <input type="checkbox" id="finished" name="finished">
+                            <span class="slider"></span>
+                        </label>
+                        <span>In Progress</span>
                     </div>
-                            
-                </div>
 
-                <div id="inputLastrow">
                     <div id="inputCurrPage" class="hidden">
                         <label for="currPage">Current Page:</label>
                         <input type="number" name="currPage" id="currPage" min="1">
                     </div> 
-                    
-                    <div id="inputSubmit">
+
+                    <div id="inputBtns">
+                    <div id="inputClose">
                         <button id="close" type="button">Close</button>
+                    </div>
+                    <div id="inputSubmit">    
                         <button type="submit">Enter</button>
+                    </div>
                     </div>
                 </div>
             </div> 
             </form>           
-        </div>
-
-        <div id="library">
-           
-        </div>
+        
+        <div id="library"></div>
 
         <footer id="footer">
             <div>Made by Pakai Márk</div>
